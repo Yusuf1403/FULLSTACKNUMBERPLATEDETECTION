@@ -1,0 +1,5 @@
+venv
+TessDataPrefix
+.idea
+Backend
+model.weights
