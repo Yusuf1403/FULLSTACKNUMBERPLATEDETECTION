@@ -10,11 +10,11 @@ from PIL import Image
 
 
 # define constants
-model_cfg_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\Dev\\NumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\cfg\\darknet-yolov3.cfg'
-model_weights_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\Dev\\NumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\model.weights'
-class_names_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\Dev\\NumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\class.names'
+model_cfg_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\cfg\\darknet-yolov3.cfg'
+model_weights_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\model.weights'
+class_names_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\class.names'
 
-input_dir = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\Dev\\NumberPlateDetection\\automatic-number-plate-recognition-python\\data'
+input_dir = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\data'
 
 
 # for img_name in os.listdir(input_dir):
@@ -22,7 +22,7 @@ def ImageToText(img_path):
     # img_path = os.path.join(input_dir, img_name)
 
     # load class names
-    with open('C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\Dev\\NumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\class.names', 'r') as f:
+    with open('C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\class.names', 'r') as f:
         class_names = [j[:-1] for j in f.readlines() if len(j) > 2]
         f.close()
 
