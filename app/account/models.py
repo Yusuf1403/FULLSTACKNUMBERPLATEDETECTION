@@ -90,13 +90,20 @@ from app.settings import BASE_DIR
 
 @receiver(post_save, sender=User)
 def update_license_plate_text(sender, instance, **kwargs):
-    if instance.vehicle_image:
-        if instance.license_plate_text == None:
-            img_url=instance.vehicle_image.url
-            full_url =r'C:/Users/AkshayAbhi/OneDrive/Desktop/FullStackNumberPlateDetection/app'+ img_url
+    try:
+        if instance.vehicle_image:
+            if instance.license_plate_text == None:
+                img_url=instance.vehicle_image.url
+                full_url =r'C:/Users/AkshayAbhi/OneDrive/Desktop/FullStackNumberPlateDetection/app'+ img_url
 
-            texts = ImageToText(str(full_url))
-            all_texts = ", ".join(texts) 
-            instance.license_plate_text=all_texts 
-            print(f'Found texts in this image : {all_texts}')
-            instance.save()
+                texts=list()
+                response = ImageToText(str(full_url))
+
+                for template in response:
+                    texts.append(template['prediction'][0]['ocr_text'])
+                
+                instance.license_plate_text=(", ".join(texts))
+                print(f'Found texts in this image are : {texts}')   
+                instance.save()
+    except Exception as e:
+        print(e)

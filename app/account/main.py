@@ -1,5 +1,5 @@
 import os
-
+from .prediction import license_plate_text_detection
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -118,6 +118,4 @@ def ImageToText(img_path):
     img = Image.fromarray(data, 'RGB')
     img.show()
     
-    return texts_detected
-    
-    # return text 
+    return license_plate_text_detection(img_path)
