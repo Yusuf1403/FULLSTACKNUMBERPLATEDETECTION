@@ -1,7 +1,9 @@
 import requests, os, sys
 import os
-model_id = "76d3f43f-2f79-4a06-8e8b-8b69f6f362a9"
-api_key = "94c1a798-c97f-11ed-8134-82d459a7ac52"
+from decouple import config
+
+model_id = config('model_id')
+api_key = config('api_key')
 
 image_path = sys.argv[1]
 def license_plate_text_detection(image_path):

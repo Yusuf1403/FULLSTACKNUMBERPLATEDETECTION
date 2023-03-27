@@ -8,21 +8,19 @@ import easyocr
 from account.util import *
 from PIL import Image
 
-
+from decouple import config
 # define constants
-model_cfg_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\cfg\\darknet-yolov3.cfg'
-model_weights_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\model.weights'
-class_names_path = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\class.names'
-
-input_dir = 'C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\data'
-
+model_cfg_path = config('model_cfg_path')
+model_weights_path = config('model_weights_path')
+class_names_path = config('class_names_path')
+input_dir = config('input_dir')
 
 # for img_name in os.listdir(input_dir):
 def ImageToText(img_path):
     # img_path = os.path.join(input_dir, img_name)
 
     # load class names
-    with open('C:\\Users\\AkshayAbhi\\OneDrive\\Desktop\\FullStackNumberPlateDetection\\automatic-number-plate-recognition-python\\yolov3-from-opencv-object-detection\\model\\weights\\class.names', 'r') as f:
+    with open(class_names_path, 'r') as f:
         class_names = [j[:-1] for j in f.readlines() if len(j) > 2]
         f.close()
 
@@ -71,6 +69,7 @@ def ImageToText(img_path):
     reader = easyocr.Reader(['en'])
     
     texts_detected = list()
+    scores=list()
     for bbox_, bbox in enumerate(bboxes):
         xc, yc, w, h = bbox
 
@@ -103,6 +102,7 @@ def ImageToText(img_path):
             # if text_score > 0.4:
             print(text, text_score)
             texts_detected.append(text)
+            scores.append(text_score)
 
     print(texts_detected)
     plt.figure()
