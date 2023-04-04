@@ -25,6 +25,7 @@
         <div class="container col-md-6" style="padding:30px;border:1px solid #aaa;margin-top: 10px;">
             <div class="container">
                 <h3>Hello {{request.user}} !!!</h3>
+                <a href="{% url 'user_records' %}" class="mx-2">UserRecords</a>
                 <a href="{% url 'logoutuser' %}" class="mx-2">LogOut</a>
             </div>
             <hr>

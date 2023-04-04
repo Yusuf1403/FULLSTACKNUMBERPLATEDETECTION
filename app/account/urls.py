@@ -13,4 +13,9 @@ urlpatterns = [
      path('userdetails/<str:pk>/', views.userdetails,name="userdetails"),
      path('logout/', views.logoutuser, name ='logoutuser'),
 
+     path('user_records',UserRecordsListView.as_view(), name='user_records'),
+     path('user_record_create',UserRecordsCreateView.as_view(), name='user_record_create'),
+     path('user_record_update/<int:pk>/',views.UserRecordUpdate, name='user_record_update'),
+     path('user_record_delete/<int:pk>/',views.UserRecordDelete, name='user_record_delete'),
+
      ]

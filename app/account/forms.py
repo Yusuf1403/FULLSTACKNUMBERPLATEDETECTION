@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from account.models import User
+from account.models import *
 from django.utils.translation import gettext_lazy as _
 
 class UserRegisterForm(UserCreationForm):
@@ -101,3 +101,9 @@ class AdminPasswordChangeForm(forms.Form):
                 return []
         return ['password']
     changed_data = property(_get_changed_data)
+
+class UserRecordForm(forms.ModelForm):
+    
+    class Meta:
+        model = UserRecord
+        fields = '__all__'
