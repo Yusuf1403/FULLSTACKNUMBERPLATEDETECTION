@@ -1,4 +1,6 @@
+.env
 venv
+nenv
 TessDataPrefix
 .idea
 Backend
