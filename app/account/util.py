@@ -64,3 +64,102 @@ def draw(bbox, img):
                         (0, 255, 0), 20)
 
     return img
+
+
+
+from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage 
+import os
+import threading
+from django.conf import settings
+from app.settings import BASE_DIR
+from decouple import config
+class EmailThread(threading.Thread):
+
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send()
+
+
+class Util:
+    @staticmethod
+    def send_email(data):
+        email = EmailMessage(
+            subject=data['email_subject'], body=data['email_body'], to=[data['to_email']])
+        EmailThread(email).start()
+
+
+    @staticmethod
+    def otp_keygen(email):
+        return f"{email}-{settings.SECRET_KEY}"
+
+    @staticmethod
+    def send_email(email, subject, message,instance=None,img_path=None):
+        if(instance.created_by==None):
+            try:
+                body_html = f'''
+                <html>
+                    <body>
+                        <h2>Admin Survelliance</h2>
+                        <p>License plate text : {instance.license_plate_text}</p>
+                        <p>Entry time : {instance.created_at}</p>
+                    </body>
+                </html>
+                '''
+            except : 
+                body_html = f'''
+                <html>
+                    <body>
+                        <h2>Admin Survelliance</h2>
+                        <p>License plate text : {instance.license_plate_text}</p>
+                        <p>Entry time : {instance.created_at}</p>
+                    </body>
+                </html>
+                '''
+        else:
+            try:
+                body_html = f'''
+                <html>
+                    <body>
+                        <h2>Admin Survelliance</h2>
+                        <p>License plate text : {instance.license_plate_text}</p>
+                        <p>Entry time : {instance.created_at}</p>
+                      
+                    </body>
+                </html>
+                '''
+            except:
+                body_html = f'''
+            <html>
+                <body>
+                    <h2>Admin Survelliance</h2>
+                    <p>License plate text : {instance.license_plate_text}</p>
+                    <p>Entry time : {instance.created_at}</p>
+                </body>
+            </html>
+            '''
+
+        msg = EmailMultiAlternatives(
+            to=[email], 
+            body=message, 
+            subject=subject, 
+            from_email=config('EMAIL_HOST_USER')
+        )
+
+        msg.mixed_subtype = 'related'
+        msg.attach_alternative(body_html, "text/html")
+        if img_path :
+            image_name=img_path.split("/")[-1]
+            
+            with open(img_path, 'rb') as f:
+                img = MIMEImage(f.read())
+                img.add_header('Content-ID', '<{name}>'.format(name=image_name))
+                img.add_header('Content-Disposition', 'inline', filename=image_name)
+            msg.attach(img)
+
+        EmailThread(msg).start()
+    

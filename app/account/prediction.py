@@ -15,4 +15,12 @@ def license_plate_text_detection(image_path):
 
     js=response.json()
     templates=js['result']
-    return templates
+    texts=list()
+    try : 
+        for template in templates:
+            texts.append(template['prediction'][0]['ocr_text'])
+    except Exception as e:
+        texts=None
+        print(e,"\n",template)
+
+    return texts

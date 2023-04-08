@@ -100,11 +100,11 @@ def ImageToText(img_path):
         for out in output:
             text_bbox, text, text_score = out
             # if text_score > 0.4:
-            print(text, text_score)
+            # print(text, text_score)
             texts_detected.append(text)
             scores.append(text_score)
 
-    print(texts_detected)
+    # print(texts_detected)
     plt.figure()
     plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
@@ -118,4 +118,8 @@ def ImageToText(img_path):
     img = Image.fromarray(data, 'RGB')
     img.show()
     
-    return license_plate_text_detection(img_path)
+    result = license_plate_text_detection(img_path)
+
+    if result==None:
+        return texts_detected
+    else: return result

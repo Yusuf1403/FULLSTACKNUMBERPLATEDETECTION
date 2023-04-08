@@ -83,3 +83,59 @@ def userdetails(request,pk):
 def logoutuser(request):
     logout(request)
     return redirect('home')
+
+from .models import *
+from django.shortcuts import render
+from django.db.models import Q  # New
+from django.views.generic import ListView, DetailView, FormView
+from django.views.generic.edit import CreateView, UpdateView,DeleteView
+
+class UserRecordsListView(ListView):
+    model = UserRecord
+    template_name = 'account/user_record_list.html'
+
+    def get_queryset(self, *args, **kwargs):
+        request = self.request
+        search_post = request.GET.get('search')
+        if search_post:
+            posts = UserRecord.objects.filter(Q(created_by__email__icontains=search_post) | Q(license_plate_text__icontains=search_post) | Q(status__icontains=search_post)).order_by('-created_at')
+        else:
+            # If not searched, return default posts
+            posts = UserRecord.objects.filter(created_by=request.user).order_by('-created_at')
+        return posts
+
+from django.urls import reverse
+class UserRecordsCreateView(CreateView):
+    model = UserRecord
+    template_name = 'account/user_records.html'
+    fields="__all__"
+
+    def get_success_url(self):
+        return reverse('user_records')
+
+from django.shortcuts import get_object_or_404
+
+from .forms import *
+from django.utils import timezone
+
+def UserRecordUpdate(request,pk):
+    instance = get_object_or_404(UserRecord, id=pk)
+    recordform=UserRecordForm(instance=instance)
+    if request.method=='POST':
+        recordform=UserRecordForm(request.POST, request.FILES, instance=instance)
+        if recordform.is_valid():
+            recordform.save()
+            instance.updated_at=timezone.now()
+            instance.save()
+            return redirect('user_records')
+    
+    context={'recordform':recordform,'record':instance}
+    return render(request,"account/user_record_update.html",context)
+
+
+def UserRecordDelete(request,pk):
+    userdetails=UserRecord.objects.get(id=pk)
+    if request.method == 'POST':
+        userdetails.delete()
+        return redirect('user_records')
+    return render(request,'account/delete.html', {'object': userdetails})
