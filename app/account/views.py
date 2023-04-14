@@ -98,7 +98,7 @@ class UserRecordsListView(ListView):
         request = self.request
         search_post = request.GET.get('search')
         if search_post:
-            posts = UserRecord.objects.filter(Q(created_by__email__icontains=search_post) | Q(license_plate_text__icontains=search_post) | Q(status__icontains=search_post)).order_by('-created_at')
+            posts = UserRecord.objects.filter(Q(created_by__email__icontains=search_post) | Q(license_plate_text__icontains=search_post)).order_by('-created_at')
         else:
             # If not searched, return default posts
             posts = UserRecord.objects.filter(created_by=request.user).order_by('-created_at')

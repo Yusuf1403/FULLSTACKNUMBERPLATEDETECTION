@@ -10,9 +10,9 @@
         integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="background-image: url('https://source.unsplash.com/random/1920x1080/?cars');">
     <div class="container-fluid" style="margin-top:5vw;">
-        <div class="container" style="border:1px solid #aaa;padding:50px;">
+        <div class="container" style="border:1px solid #aaa;padding:50px;background-color: rgba(240, 240, 240, 1);">
             <form method="POST" action="">
                 {% csrf_token %}
                 <p>Areyou sure you want to delete "{{obj}}" ?</p>

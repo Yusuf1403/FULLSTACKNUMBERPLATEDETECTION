@@ -66,7 +66,7 @@ class User(AbstractUser):
     starting_charge_price = models.FloatField(blank=True, null=True)
     mode_of_service = models.CharField(
         max_length=520, blank=True, choices=MODE, default='None')
-    dob = models.DateField(blank=True, null=True)
+    dob = models.DateField("date_of birth",blank=True, null=True)
     preferred_name = models.CharField(
         max_length=520, blank=True, null=True)
     pronoun = models.CharField(max_length=520, blank=True, null=True)

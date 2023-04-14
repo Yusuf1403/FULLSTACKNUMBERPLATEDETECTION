@@ -9,6 +9,7 @@ class UserRegisterForm(UserCreationForm):
     last_name=forms.CharField(max_length=50)
     email = forms.EmailField()
 
+
     class Meta:
         model = User
         fields = ['first_name','last_name', 'email', 'password1', 'password2']
@@ -20,14 +21,9 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField, UserChangeForm
 from django.urls import reverse_lazy
 
 class UserEditForm(forms.ModelForm):
-    password = ReadOnlyPasswordHashField(label=_("Password"),
-        help_text=_("Raw passwords are not stored, so there is no way to see "
-                    "this user's password, but you can change the password "
-                    "using <a href=\"password/\">this form</a>."))
-
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('email','user_type','name','company','experience','mode_of_service','dob','preferred_name','location','description','profile_image','vehicle_image','license_plate_text')
 
     def __init__(self, *args, **kwargs):
         super(UserEditForm, self).__init__(*args, **kwargs)
@@ -35,11 +31,7 @@ class UserEditForm(forms.ModelForm):
         if f is not None:
             f.queryset = f.queryset.select_related('content_type')
 
-    def clean_password(self):
-        # Regardless of what the user provides, return the initial value.
-        # This is done here, rather than on the field, because the
-        # field does not have access to the initial value
-        return self.initial["password"]
+
         
 
 # class AppointmentForm(forms.ModelForm):
